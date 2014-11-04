@@ -37,10 +37,10 @@ public class UtilDatas {
     	Calendar saidaManha = Calendar.getInstance();
     	Calendar entradatarde = Calendar.getInstance();
     	Calendar saidaTarde = Calendar.getInstance();
-    	c.set(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH), 07, 00, 00);
-    	saidaManha.set(saidaManha.get(Calendar.YEAR), saidaManha.get(Calendar.MONTH), saidaManha.get(Calendar.DAY_OF_MONTH), 12, 59, 59);
-    	entradatarde.set(entradatarde.get(Calendar.YEAR), entradatarde.get(Calendar.MONTH), entradatarde.get(Calendar.DAY_OF_MONTH), 13, 00, 00);
-    	saidaTarde.set(saidaTarde.get(Calendar.YEAR), saidaTarde.get(Calendar.MONTH), saidaTarde.get(Calendar.DAY_OF_MONTH), 17, 59, 59);
+    	c.set(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH), 03, 50, 00);
+    	saidaManha.set(saidaManha.get(Calendar.YEAR), saidaManha.get(Calendar.MONTH), saidaManha.get(Calendar.DAY_OF_MONTH), 12, 00, 00);
+    	entradatarde.set(entradatarde.get(Calendar.YEAR), entradatarde.get(Calendar.MONTH), entradatarde.get(Calendar.DAY_OF_MONTH), 12, 00, 01);
+    	saidaTarde.set(saidaTarde.get(Calendar.YEAR), saidaTarde.get(Calendar.MONTH), saidaTarde.get(Calendar.DAY_OF_MONTH), 22, 00, 00);
     	if((hora.after(new Timestamp(c.getTimeInMillis()))) && (hora.before(new Timestamp(saidaManha.getTimeInMillis())))){
     		return "M";
     	}else if((hora.after(new Timestamp(entradatarde.getTimeInMillis()))) && (hora.before(new Timestamp(saidaTarde.getTimeInMillis())))){

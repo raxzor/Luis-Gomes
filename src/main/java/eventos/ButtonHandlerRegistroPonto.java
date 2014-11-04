@@ -49,17 +49,20 @@ public class ButtonHandlerRegistroPonto implements ActionListener {
 
 		Calendar corrente = Calendar.getInstance();
 
-		entradaManha.set(corteManha.get(Calendar.YEAR), corteManha.get(Calendar.MONTH), corteManha.get(Calendar.DAY_OF_MONTH), 06, 50, 00);
+		entradaManha.set(corteManha.get(Calendar.YEAR), 
+				corteManha.get(Calendar.MONTH), 
+				corteManha.get(Calendar.DAY_OF_MONTH), 03, 50, 00);
+		
 		corteManha.set(corteManha.get(Calendar.YEAR),
 				corteManha.get(Calendar.MONTH),
-				corteManha.get(Calendar.DAY_OF_MONTH), 9, 00, 00);
+				corteManha.get(Calendar.DAY_OF_MONTH), 11, 59, 59);
 
 		entradaTarde.set(corteTarde.get(Calendar.YEAR),
 				corteTarde.get(Calendar.MONTH),
-				corteTarde.get(Calendar.DAY_OF_MONTH), 13, 00, 00);
+				corteTarde.get(Calendar.DAY_OF_MONTH), 12, 00, 00);
 		corteTarde.set(corteTarde.get(Calendar.YEAR),
 				corteTarde.get(Calendar.MONTH),
-				corteTarde.get(Calendar.DAY_OF_MONTH), 13, 50, 00);
+				corteTarde.get(Calendar.DAY_OF_MONTH), 22, 00, 00);
 
 		if ((corrente.after(entradaManha) && (corrente.before(corteManha))) || ((corrente.after(entradaTarde)) && (corrente.before(corteTarde)))) {
 
@@ -81,14 +84,13 @@ public class ButtonHandlerRegistroPonto implements ActionListener {
 				if (funcionario != null) {
 					Boolean frequenciaDia = fachadaFrequencia.verificarFrequenciaTurno(funcionario.getId(), new Date(Calendar.getInstance().getTimeInMillis()));
 					if (frequenciaDia == false) {
-						respostaUsuario = "Bom dia "
+						respostaUsuario = "Bom dia " 
 								+ funcionario.getNome().toString()
-								+ ", seu Ponto foi registrado com sucesso!";
+								+ ", seu Ponto foi registrado com sucesso às " + getDataFormatadaComZero(Calendar.getInstance().get(Calendar.HOUR_OF_DAY)) + ":" + getDataFormatadaComZero(Calendar.getInstance().get(Calendar.MINUTE)) + ":" + getDataFormatadaComZero(Calendar.getInstance().get(Calendar.SECOND)) + " horas.";
 						frequencia.setFuncionario(funcionario);
 						frequencia.setPresenca(Boolean.TRUE);
 						Calendar calendar = Calendar.getInstance();
-						frequencia
-								.setData(new Date(calendar.getTimeInMillis()));
+						frequencia.setData(new Date(calendar.getTimeInMillis()));
 						frequencia.setTurno(UtilDatas.getTurno(new Timestamp(Calendar.getInstance().getTimeInMillis())));
 						try {
 							frequenciaDao.inserirFrequencia(frequencia);
@@ -130,5 +132,13 @@ public class ButtonHandlerRegistroPonto implements ActionListener {
 		principal.dispose();
 		Principal.main(null);
 		}
+	
+	public String getDataFormatadaComZero(int tempo){
+		String formatar = String.valueOf(tempo);
+		if(formatar.length() < 2){
+			return ("0" + formatar);
+		}		
+		return formatar;
+	}
 
 }

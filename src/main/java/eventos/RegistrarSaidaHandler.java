@@ -34,20 +34,23 @@ public class RegistrarSaidaHandler implements ActionListener {
 	
 	
 	public void actionPerformed(ActionEvent e) {
-		Funcionario funcionario;
-		
+		Funcionario funcionario;		
 		FuncionarioDao funcionarioDao = new FuncionarioDao();
 		FrequenciaDao frequenciaDao = new FrequenciaDao();
 		Calendar c = Calendar.getInstance();
 		List<Frequencia> frequencias = new ArrayList<Frequencia>();
 		String turno = UtilDatas.getTurno(new Timestamp(Calendar.getInstance().getTimeInMillis()));
 		String mensagem = new String();
+		
 		try {
+			
 			funcionario = funcionarioDao.getfuncionario(principal.getLogin(), principal.getSenha());
+			if(funcionario != null){
 			frequencias = frequenciaDao.getFrequenciaFuncionario((c.get(Calendar.MONTH)), c.get(Calendar.YEAR), c.get(Calendar.DAY_OF_MONTH), funcionario.getId());
+			
 			if(frequencias.isEmpty()){
 				Calendar calendar = Calendar.getInstance();
-				mensagem = "Sua Saída foi Registrada com Sucesso! \n \n "
+				mensagem = "Saída Registrada com Sucesso! \n \n "
 							+ "Registro de saída às: " + calendar.getTime().toString().substring(11, 20);
 				OperacaoLog log = new OperacaoLog();
 				log.setData(new Timestamp(calendar.getTimeInMillis()));
@@ -63,12 +66,12 @@ public class RegistrarSaidaHandler implements ActionListener {
 						if(turno.equals("T") && (frequencia.getTurno().equals("T"))){
 							frequencia.setHoraSaida(new Timestamp(c.getTimeInMillis()));
 							frequenciaDao.atualizarFrequencia(frequencia);
-							mensagem = "Sua Saída foi registrada com sucesso! \n \n "
+							mensagem = "Saída registrada com sucesso! \n \n "
 									+ "Registro de Saída às: " + frequencia.getHoraSaida().toString().substring(10, 16);
 						}else if(turno.equals("M") && (frequencia.getTurno().equals("M"))){
 							frequencia.setHoraSaida(new Timestamp(c.getTimeInMillis()));
 							frequenciaDao.atualizarFrequencia(frequencia);
-							mensagem = "Sua Saída foi registrada com sucesso! \n \n "
+							mensagem = "Saída registrada com sucesso! \n \n "
 									+ "Registro de Saída às: " + frequencia.getHoraSaida().toString().substring(10, 16);
 						}
 					}
@@ -78,9 +81,13 @@ public class RegistrarSaidaHandler implements ActionListener {
 					mensagem = "Atenção, todos os turnos já foram encerrados!";
 				}
 			}
-	           
+		}else{
+			mensagem = "Erro, Credenciais inválidas! \n" +	"Verifique o nome do Usuário e a sua Senha!";
+		}	           
 		} catch (SQLException e1) {
 			e1.printStackTrace();
+		}catch (NullPointerException npe) {
+			// TODO: handle exception
 		}
 		JOptionPane.showMessageDialog(null, mensagem);  
 		principal.dispose();

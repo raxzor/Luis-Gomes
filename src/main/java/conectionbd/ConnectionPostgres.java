@@ -25,7 +25,8 @@ public class ConnectionPostgres {
         this.driver = "org.postgresql.Driver";
         this.url = "jdbc:postgresql://localhost:5432/PontoEletronico";
         this.usuario = "postgres";
-        this.senha = "qw190787";
+//        this.senha = "qw190787";
+        this.senha = "123";
         
       }
     
